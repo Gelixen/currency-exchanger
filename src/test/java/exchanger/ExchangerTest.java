@@ -72,8 +72,8 @@ public class ExchangerTest {
         getExchange("5", "EUR", "ZZZ");
     }
 
-    private BigDecimal getExchange(String ammount, String currencyFrom, String currencyTo) {
-        return exchanger.exchange(new BigDecimal(ammount), currencyFrom, currencyTo);
+    private BigDecimal getExchange(String amount, String currencyFrom, String currencyTo) {
+        return exchanger.exchange(new BigDecimal(amount), currencyFrom, currencyTo);
     }
 
     @Test
