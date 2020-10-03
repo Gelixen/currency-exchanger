@@ -10,8 +10,10 @@ public class CurrencyExchange {
 
         if (args.length != 4) {
             System.out.println("Usage: \"java exchanger.CurrencyExchange <currencyRatesFileName> <amount> <currencyFrom> <currencyTo>\"");
-            System.out.println("i.e. \"java exchanger.CurrencyExchange data.csv 5 BTC EUR\"");
+            System.out.println("E.g. \"java exchanger.CurrencyExchange data.csv 5 BTC EUR\"");
             return;
+        } else {
+            System.out.println("Input args: " + String.join(" ", args));
         }
 
         String fileName = args[0];
@@ -22,7 +24,7 @@ public class CurrencyExchange {
         HashMap<String, BigDecimal> currencyRates = new CurrencyRatesFileReader(fileName).readCurrencyRatesFromFile();
 
         BigDecimal exchangedAmount = new Exchanger(currencyRates).exchange(amount, currencyFrom, currencyTo);
-        System.out.println(exchangedAmount);
+        System.out.println("Result: " + exchangedAmount);
     }
 
 }
