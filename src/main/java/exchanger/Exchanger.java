@@ -3,6 +3,7 @@ package exchanger;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class Exchanger {
 
@@ -23,12 +24,7 @@ public class Exchanger {
     }
 
     private BigDecimal getCurrencyRateIfCurrencyExists(String currencyName) {
-        BigDecimal currencyRate = currencies.get(currencyName);
-
-        if (currencyRate == null) {
-            throw new CurrencyNotFoundException(currencyName);
-        }
-
-        return currencyRate;
+        return Optional.ofNullable(currencies.get(currencyName))
+                .orElseThrow(() -> new CurrencyNotFoundException(currencyName));
     }
 }
