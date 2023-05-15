@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CurrencyRatesFileReader {
+public class CurrencyRatesFileReader implements CurrencyRatesReader {
 
     private final String fileName;
     private final String COMMA_DELIMITER = ",";
@@ -16,7 +16,7 @@ public class CurrencyRatesFileReader {
         this.fileName = fileName;
     }
 
-    public HashMap<String, BigDecimal> readCurrencyRatesFromFile() throws IOException {
+    public HashMap<String, BigDecimal> readCurrencyRates() throws IOException {
         HashMap<String, BigDecimal> currencies = new HashMap<>();
 
         String path = getPathToFile();

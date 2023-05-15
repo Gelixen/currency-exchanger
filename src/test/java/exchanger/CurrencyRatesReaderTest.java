@@ -11,13 +11,13 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CurrencyRatesFileReaderTest {
+public class CurrencyRatesReaderTest {
 
-    private CurrencyRatesFileReader currencyRatesFileReader;
+    private CurrencyRatesReader currencyRatesReader;
 
     @Test
     public void readCurrencyRatesFromDataFile_sameCurrencyRatesExpected() throws IOException {
-        currencyRatesFileReader = new CurrencyRatesFileReader("data.csv");
+        currencyRatesReader = new CurrencyRatesFileReader("data.csv");
 
         Map<String, BigDecimal> expected = new HashMap<>();
         expected.put("BTC", new BigDecimal("6977.089657"));
@@ -27,7 +27,7 @@ public class CurrencyRatesFileReaderTest {
         expected.put("USD", new BigDecimal("0.809552722"));
         expected.put("ETH", new BigDecimal("685.2944747"));
 
-        HashMap<String, BigDecimal> currencyRates = currencyRatesFileReader.readCurrencyRatesFromFile();
+        HashMap<String, BigDecimal> currencyRates = currencyRatesReader.readCurrencyRates();
 
         assertEquals(currencyRates.size(), 6);
         assertEquals(currencyRates, expected);
@@ -35,8 +35,8 @@ public class CurrencyRatesFileReaderTest {
 
     @Test
     public void tryToReadCurrencyRatesFromNonExistingFile_throwFileNotFoundException() {
-        currencyRatesFileReader = new CurrencyRatesFileReader("not-data.csv");
+        currencyRatesReader = new CurrencyRatesFileReader("not-data.csv");
 
-        assertThrows(FileNotFoundException.class, () -> currencyRatesFileReader.readCurrencyRatesFromFile());
+        assertThrows(FileNotFoundException.class, () -> currencyRatesReader.readCurrencyRates());
     }
 }
