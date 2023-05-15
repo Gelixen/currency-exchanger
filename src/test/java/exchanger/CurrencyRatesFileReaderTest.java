@@ -1,6 +1,6 @@
 package exchanger;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CurrencyRatesFileReaderTest {
 
@@ -29,14 +29,14 @@ public class CurrencyRatesFileReaderTest {
 
         HashMap<String, BigDecimal> currencyRates = currencyRatesFileReader.readCurrencyRatesFromFile();
 
-        assertThat(currencyRates.size(), is(6));
-        assertThat(currencyRates, is(expected));
+        assertEquals(currencyRates.size(), 6);
+        assertEquals(currencyRates, expected);
     }
 
-    @Test(expected = FileNotFoundException.class)
-    public void tryToReadCurrencyRatesFromNonExistingFile_throwFileNotFoundException() throws IOException {
+    @Test
+    public void tryToReadCurrencyRatesFromNonExistingFile_throwFileNotFoundException() {
         currencyRatesFileReader = new CurrencyRatesFileReader("not-data.csv");
 
-        currencyRatesFileReader.readCurrencyRatesFromFile();
+        assertThrows(FileNotFoundException.class, () -> currencyRatesFileReader.readCurrencyRatesFromFile());
     }
 }

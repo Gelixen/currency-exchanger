@@ -1,25 +1,25 @@
 package exchanger;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExchangerTest {
 
-    private Exchanger exchanger;
+    private static HashMap<String, BigDecimal> currencies;
 
-    @Before
-    public void setUp() {
-        HashMap<String, BigDecimal> currencies = generateCurrenciesMap();
-        exchanger = new Exchanger(currencies);
+    @BeforeAll
+    public static void setUp() {
+        currencies = generateCurrenciesMap();
     }
 
-    private HashMap<String, BigDecimal> generateCurrenciesMap() {
+    private static HashMap<String, BigDecimal> generateCurrenciesMap() {
         HashMap<String, BigDecimal> currenciesMap = new HashMap<>();
 
         currenciesMap.put("EUR", new BigDecimal("1"));
@@ -62,18 +62,18 @@ public class ExchangerTest {
         assertEquals(new BigDecimal("27411.778988"), getExchange("1", "ETH", "FKE"));
     }
 
-    @Test(expected = CurrencyNotFoundException.class)
+    @Test
     public void badCurrencyFrom_throwException() {
-        getExchange("5", "YYY", "EUR");
+        assertThrows(CurrencyNotFoundException.class, () -> getExchange("5", "YYY", "EUR"));
     }
 
-    @Test(expected = CurrencyNotFoundException.class)
+    @Test
     public void badCurrencyTo_throwException() {
-        getExchange("5", "EUR", "ZZZ");
+        assertThrows(CurrencyNotFoundException.class, () -> getExchange("5", "EUR", "ZZZ"));
     }
 
     private BigDecimal getExchange(String amount, String currencyFrom, String currencyTo) {
-        return exchanger.exchange(new BigDecimal(amount), currencyFrom, currencyTo);
+        return new Exchanger(currencies).exchange(new BigDecimal(amount), currencyFrom, currencyTo);
     }
 
     @Test
