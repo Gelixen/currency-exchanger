@@ -17,7 +17,7 @@ public class CurrencyRatesReaderTest {
 
     @Test
     public void readCurrencyRatesFromDataFile_sameCurrencyRatesExpected() throws IOException {
-        currencyRatesReader = new CurrencyRatesFileReader("data.csv");
+        currencyRatesReader = new CurrencyRatesCsvReader("data.csv");
 
         Map<String, BigDecimal> expected = new HashMap<>();
         expected.put("BTC", new BigDecimal("6977.089657"));
@@ -35,7 +35,7 @@ public class CurrencyRatesReaderTest {
 
     @Test
     public void tryToReadCurrencyRatesFromNonExistingFile_throwFileNotFoundException() {
-        currencyRatesReader = new CurrencyRatesFileReader("not-data.csv");
+        currencyRatesReader = new CurrencyRatesCsvReader("not-data.csv");
 
         assertThrows(FileNotFoundException.class, () -> currencyRatesReader.readCurrencyRates());
     }

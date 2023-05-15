@@ -21,7 +21,7 @@ public class CurrencyExchange {
         String currencyFrom = args[2];
         String currencyTo = args[3];
 
-        HashMap<String, BigDecimal> currencyRates = new CurrencyRatesFileReader(fileName).readCurrencyRates();
+        HashMap<String, BigDecimal> currencyRates = new CurrencyRatesCsvReader(fileName).readCurrencyRates();
 
         BigDecimal exchangedAmount = new Exchanger(currencyRates).exchange(amount, currencyFrom, currencyTo);
         System.out.println("Result: " + exchangedAmount);
