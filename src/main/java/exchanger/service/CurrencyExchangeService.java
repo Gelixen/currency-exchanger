@@ -3,7 +3,6 @@ package exchanger.service;
 import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
 import exchanger.model.ExchangeResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,13 +13,24 @@ import java.util.Optional;
 @Service
 public class CurrencyExchangeService {
 
-    @Autowired
-    private HashMap<String, BigDecimal> currencies;
+    private final HashMap<String, BigDecimal> currencies;
+
+    public CurrencyExchangeService(HashMap<String, BigDecimal> currencies) {
+        this.currencies = currencies;
+    }
 
     public ExchangeResponse exchange(ExchangeRequest request) {
-        String currency = request.initialCurrency();
-        return Optional.ofNullable(currencies.get(currency))
-                .map(ExchangeResponse::new)
-                .orElseThrow(() -> new CurrencyNotFoundException(currency));
+        BigDecimal initialCurrencyRate = getCurrencyRate(request.initialCurrency());
+        BigDecimal finalCurrencyRate = getCurrencyRate(request.finalCurrency());
+
+        BigDecimal quantityInEur = request.quantity().multiply(initialCurrencyRate);
+        BigDecimal quantityInFinalCurrency = quantityInEur.divide(finalCurrencyRate, 18, RoundingMode.DOWN);
+
+        return new ExchangeResponse(quantityInFinalCurrency.stripTrailingZeros());
+    }
+
+    private BigDecimal getCurrencyRate(String currencyName) {
+        return Optional.ofNullable(currencies.get(currencyName))
+                .orElseThrow(() -> new CurrencyNotFoundException(currencyName));
     }
 }

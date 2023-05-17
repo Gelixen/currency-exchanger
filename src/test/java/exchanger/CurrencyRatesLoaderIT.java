@@ -8,11 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("slow")
 @SpringBootTest
-class CurrencyRatesLoaderTest {
+class CurrencyRatesLoaderIT {
 
     private final HashMap<String, BigDecimal> expectedCurrencyRates = new HashMap<>() {{
         put("EUR", new BigDecimal("1"));
@@ -26,7 +26,7 @@ class CurrencyRatesLoaderTest {
     @Autowired
     private HashMap<String, BigDecimal> currencyRates;
 
-    CurrencyRatesLoaderTest() {
+    CurrencyRatesLoaderIT() {
     }
 
     @Test

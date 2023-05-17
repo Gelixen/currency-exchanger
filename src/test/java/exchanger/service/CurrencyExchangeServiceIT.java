@@ -23,7 +23,7 @@ class CurrencyExchangeServiceIT {
     @Test
     void exchange_existentCurrencyName_returnExchangeRate() {
         BigDecimal expectedExchangeRate = BigDecimal.ONE;
-        ExchangeRequest exchangeRequest = new ExchangeRequest(BigDecimal.TEN, "EUR", "BTC");
+        ExchangeRequest exchangeRequest = new ExchangeRequest(expectedExchangeRate, "EUR", "EUR");
 
         ExchangeResponse exchangeRate = service.exchange(exchangeRequest);
 
