@@ -30,7 +30,7 @@ class CurrencyExchangeServiceTest {
     void exchange_mapContainsCurrency_returnExchangeRate() {
         BigDecimal expectedValue = BigDecimal.ONE;
         String currency = "BTC";
-        ExchangeRequest exchangeRequest = new ExchangeRequest(currency);
+        ExchangeRequest exchangeRequest = new ExchangeRequest(BigDecimal.TEN, currency, currency);
         when(currencies.get(currency)).thenReturn(expectedValue);
 
         ExchangeResponse response = service.exchange(exchangeRequest);
@@ -41,7 +41,7 @@ class CurrencyExchangeServiceTest {
     @Test
     void exchange_mapDoesNotContainCurrency_throwCurrencyNotFoundException() {
         String currency = "ANY";
-        ExchangeRequest exchangeRequest = new ExchangeRequest(currency);
+        ExchangeRequest exchangeRequest = new ExchangeRequest(BigDecimal.TEN, currency, currency);
         when(currencies.get(anyString())).thenReturn(null);
 
         assertThrows(CurrencyNotFoundException.class, () -> service.exchange(exchangeRequest));

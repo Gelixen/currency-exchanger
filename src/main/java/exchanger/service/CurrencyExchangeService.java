@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class CurrencyExchangeService {
     private HashMap<String, BigDecimal> currencies;
 
     public ExchangeResponse exchange(ExchangeRequest request) {
-        String currency = request.currency();
+        String currency = request.initialCurrency();
         return Optional.ofNullable(currencies.get(currency))
                 .map(ExchangeResponse::new)
                 .orElseThrow(() -> new CurrencyNotFoundException(currency));

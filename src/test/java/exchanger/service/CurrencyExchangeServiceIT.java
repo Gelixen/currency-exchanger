@@ -23,7 +23,7 @@ class CurrencyExchangeServiceIT {
     @Test
     void exchange_existentCurrencyName_returnExchangeRate() {
         BigDecimal expectedExchangeRate = BigDecimal.ONE;
-        ExchangeRequest exchangeRequest = new ExchangeRequest("EUR");
+        ExchangeRequest exchangeRequest = new ExchangeRequest(BigDecimal.TEN, "EUR", "BTC");
 
         ExchangeResponse exchangeRate = service.exchange(exchangeRequest);
 
@@ -32,7 +32,7 @@ class CurrencyExchangeServiceIT {
 
     @Test
     void exchange_nonexistentCurrencyName_throwCurrencyNotFoundException() {
-        ExchangeRequest exchangeRequest = new ExchangeRequest("X");
+        ExchangeRequest exchangeRequest = new ExchangeRequest(BigDecimal.TEN, "X", "Y");
 
         assertThrows(CurrencyNotFoundException.class, () -> service.exchange(exchangeRequest));
     }

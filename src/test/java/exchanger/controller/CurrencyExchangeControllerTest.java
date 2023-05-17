@@ -33,7 +33,7 @@ class CurrencyExchangeControllerTest {
 
     @Test
     void exchange_success() throws Exception {
-        ExchangeRequest request = new ExchangeRequest("EUR");
+        ExchangeRequest request = new ExchangeRequest(BigDecimal.TEN, "EUR", "USD");
         BigDecimal expectedRate = new BigDecimal("10.123456789");
         ExchangeResponse response = new ExchangeResponse(expectedRate);
 
