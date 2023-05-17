@@ -23,9 +23,13 @@ public class CurrencyExchangeController {
     public ResponseEntity exchange(@RequestBody ExchangeRequest request) {
         try {
             ExchangeResponse response = currencyExchangeService.exchange(request);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(response);
         } catch (CurrencyNotFoundException e) {
-            return new ResponseEntity<>(CurrencyNotFoundException.ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(CurrencyNotFoundException.ERROR_MESSAGE);
         }
     }
 }
