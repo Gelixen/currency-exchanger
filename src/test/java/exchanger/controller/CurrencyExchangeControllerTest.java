@@ -1,6 +1,7 @@
 package exchanger.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
 import exchanger.model.ExchangeResponse;
 import exchanger.service.CurrencyExchangeService;
@@ -50,15 +51,15 @@ class CurrencyExchangeControllerTest {
     @Test
     void exchange_throwException_returnServerError() throws Exception {
         when(service.exchange(any(ExchangeRequest.class)))
-                .thenThrow(RuntimeException.class);
+                .thenThrow(CurrencyNotFoundException.class);
 
         mockMvc.perform(
                         post("/api/exchange")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("{}")
                 )
-                .andExpect(status().is5xxServerError())
-                .andExpect(content().string(""));
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(CurrencyNotFoundException.ERROR_MESSAGE));
     }
 
     private String asJsonString(final Object obj) {

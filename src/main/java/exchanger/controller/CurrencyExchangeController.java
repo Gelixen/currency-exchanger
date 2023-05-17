@@ -1,5 +1,6 @@
 package exchanger.controller;
 
+import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
 import exchanger.model.ExchangeResponse;
 import exchanger.service.CurrencyExchangeService;
@@ -19,12 +20,12 @@ public class CurrencyExchangeController {
     private CurrencyExchangeService currencyExchangeService;
 
     @PostMapping("/exchange")
-    public ResponseEntity<ExchangeResponse> exchange(@RequestBody ExchangeRequest request) {
+    public ResponseEntity exchange(@RequestBody ExchangeRequest request) {
         try {
             ExchangeResponse response = currencyExchangeService.exchange(request);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (CurrencyNotFoundException e) {
+            return new ResponseEntity<>(CurrencyNotFoundException.ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
     }
 }
