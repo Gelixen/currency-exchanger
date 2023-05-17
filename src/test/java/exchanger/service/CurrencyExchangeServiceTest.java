@@ -2,10 +2,13 @@ package exchanger.service;
 
 import exchanger.model.ExchangeRequest;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,53 +36,51 @@ class CurrencyExchangeServiceTest {
         return currenciesMap;
     }
 
-    @Test
-    void EUR_to_EUR() {
-        assertEquals("66", getExchange("66", "EUR", "EUR"));
+    private static Stream<Arguments> exchange_successful() {
+        return Stream.of(
+                Arguments.of("EUR", "EUR", "66", "66"),
+                Arguments.of("EUR", "USD", "100", "123.525000018466987502"),
+                Arguments.of("EUR", "ETH", "2000", "2.918453415045460602"),
+                Arguments.of("ETH", "FKE", "1", "27411.778988"),
+                Arguments.of("BTC", "BTC", "13", "13"),
+                Arguments.of("BTC", "EUR", "10", "69770.89657"),
+                Arguments.of("BTC", "ETH", "2", "20.362311136550011352"),
+                Arguments.of("FKE", "BTC", "6977.089657", "0.025"),
+                Arguments.of("GBP", "BTC", "7000", "1.130394675677879138"),
+                Arguments.of("USD", "GBP", "14", "10.059277895082520114")
+        );
     }
 
-    @Test
-    void BTC_to_BTC() {
-        assertEquals("15.2145678", getExchange("15.2145678", "BTC", "BTC"));
-    }
-
-    @Test
-    void BTC_to_EUR() {
-        assertEquals("69770.89657", getExchange("10", "BTC", "EUR"));
-    }
-
-    @Test
-    void EUR_to_ETH() {
-        assertEquals("2.918453415045460602", getExchange("2000", "EUR", "ETH"));
-    }
-
-    @Test
-    void BTC_to_ETH() {
-        assertEquals("20.362311136550011352", getExchange("2", "BTC", "ETH"));
-    }
-
-    @Test
-    void GBP_to_BTC() {
-        assertEquals("1.130394675677879138", getExchange("7000", "GBP", "BTC"));
-    }
-
-    @Test
-    void ETH_to_FKE() {
-        assertEquals("27411.778988", getExchange("1", "ETH", "FKE"));
-    }
-
-    @Test
-    void badCurrencyFrom_throwException() {
-        assertThrows(CurrencyNotFoundException.class, () -> getExchange("5", "YYY", "EUR"));
-    }
-
-    @Test
-    void badCurrencyTo_throwException() {
-        assertThrows(CurrencyNotFoundException.class, () -> getExchange("5", "EUR", "ZZZ"));
-    }
-
-    private String getExchange(String quantity, String initialCurrency, String finalCurrency) {
+    @MethodSource
+    @ParameterizedTest
+    void exchange_successful(String initialCurrency, String finalCurrency, String quantity, String expectedQuantity) {
         ExchangeRequest request = new ExchangeRequest(new BigDecimal(quantity), initialCurrency, finalCurrency);
-        return service.exchange(request).quantity().toString();
+
+        String exchangedQuantity = service.exchange(request).quantity().toString();
+
+        assertEquals(expectedQuantity, exchangedQuantity);
     }
+
+
+    private static Stream<Arguments> exchange_invalidCurrency_throwException() {
+        return Stream.of(
+                Arguments.of("EUR", "Z"),
+                Arguments.of("EUR", ""),
+                Arguments.of("BTC", null),
+                Arguments.of("BTCX", null),
+                Arguments.of("Y", "USD"),
+                Arguments.of("   ", "USD"),
+                Arguments.of(null, "FKE"),
+                Arguments.of(null, null)
+        );
+    }
+
+    @MethodSource
+    @ParameterizedTest
+    void exchange_invalidCurrency_throwException(String initialCurrency, String finalCurrency) {
+        ExchangeRequest request = new ExchangeRequest(BigDecimal.TEN, initialCurrency, finalCurrency);
+
+        assertThrows(CurrencyNotFoundException.class, () -> service.exchange(request));
+    }
+
 }
