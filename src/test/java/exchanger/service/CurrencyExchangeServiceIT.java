@@ -20,13 +20,22 @@ class CurrencyExchangeServiceIT {
     private CurrencyExchangeService service;
 
     @Test
-    void exchange_existentCurrencyName_returnExchangeRate() {
-        BigDecimal expectedExchangeRate = BigDecimal.ONE;
-        ExchangeRequest exchangeRequest = new ExchangeRequest(expectedExchangeRate, "EUR", "EUR");
+    void exchange_eurToEur_returnSameQuantity() {
+        String expectedExchangeRate = "12";
+        ExchangeRequest exchangeRequest = new ExchangeRequest(new BigDecimal(expectedExchangeRate), "EUR", "EUR");
 
         ExchangeResponse exchangeRate = service.exchange(exchangeRequest);
 
         assertEquals(expectedExchangeRate, exchangeRate.quantity());
+    }
+
+    @Test
+    void exchange_fkeToUsd_returnExchangeRate() {
+        ExchangeRequest exchangeRequest = new ExchangeRequest(new BigDecimal("1"), "BTC", "ETH");
+
+        ExchangeResponse exchangeRate = service.exchange(exchangeRequest);
+
+        assertEquals("10.181155568275005676", exchangeRate.quantity());
     }
 
     @Test

@@ -25,7 +25,7 @@ public class CurrencyExchangeService {
         BigDecimal quantityInEur = request.quantity().multiply(initialCurrencyRate);
         BigDecimal quantityInFinalCurrency = quantityInEur.divide(finalCurrencyRate, 18, RoundingMode.DOWN);
 
-        return new ExchangeResponse(quantityInFinalCurrency.stripTrailingZeros());
+        return new ExchangeResponse(quantityInFinalCurrency.stripTrailingZeros().toPlainString());
     }
 
     private BigDecimal getCurrencyRate(String currencyName) {

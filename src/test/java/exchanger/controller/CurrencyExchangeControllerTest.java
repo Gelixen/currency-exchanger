@@ -34,7 +34,7 @@ class CurrencyExchangeControllerTest {
     @Test
     void exchange_success() throws Exception {
         ExchangeRequest request = new ExchangeRequest(BigDecimal.TEN, "EUR", "USD");
-        BigDecimal expectedRate = new BigDecimal("10.123456789");
+        String expectedRate = "10.123456789";
         ExchangeResponse response = new ExchangeResponse(expectedRate);
 
         when(service.exchange(request)).thenReturn(response);
@@ -45,7 +45,7 @@ class CurrencyExchangeControllerTest {
                                 .content(asJsonString(request))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.quantity", comparesEqualTo(expectedRate.doubleValue())));
+                .andExpect(jsonPath("$.quantity", comparesEqualTo(expectedRate)));
     }
 
     @Test

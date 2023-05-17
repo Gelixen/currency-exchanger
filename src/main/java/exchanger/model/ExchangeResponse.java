@@ -1,6 +1,4 @@
 package exchanger.model;
 
-import java.math.BigDecimal;
-
-public record ExchangeResponse(BigDecimal quantity) {
+public record ExchangeResponse(String quantity) {
 }
