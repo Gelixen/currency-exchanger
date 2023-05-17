@@ -1,5 +1,7 @@
 package exchanger;
 
+import exchanger.service.data.CurrencyRatesCsvReader;
+import exchanger.service.data.CurrencyRatesReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;

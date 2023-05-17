@@ -1,4 +1,4 @@
-package exchanger;
+package exchanger.service.data;
 
 import java.io.IOException;
 import java.math.BigDecimal;

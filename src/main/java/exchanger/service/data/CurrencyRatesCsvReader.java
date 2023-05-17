@@ -1,4 +1,4 @@
-package exchanger;
+package exchanger.service.data;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;

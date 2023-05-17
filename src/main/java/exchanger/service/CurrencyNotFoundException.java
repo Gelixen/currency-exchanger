@@ -1,4 +1,4 @@
-package exchanger;
+package exchanger.service;
 
 public class CurrencyNotFoundException extends RuntimeException {
 

@@ -1,6 +1,5 @@
 package exchanger.service;
 
-import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
 import exchanger.model.ExchangeResponse;
 import org.springframework.stereotype.Service;

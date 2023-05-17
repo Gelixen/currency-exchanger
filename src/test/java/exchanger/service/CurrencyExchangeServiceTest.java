@@ -1,6 +1,5 @@
 package exchanger.service;
 
-import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
