@@ -50,8 +50,10 @@ class CurrencyExchangeControllerTest {
 
     @Test
     void exchange_throwException_returnServerError() throws Exception {
+        String currency = "Z";
+        String expectedResponse = String.format("Currency '%s' does not exist.", currency);
         when(service.exchange(any(ExchangeRequest.class)))
-                .thenThrow(CurrencyNotFoundException.class);
+                .thenThrow(new CurrencyNotFoundException(currency));
 
         mockMvc.perform(
                         post("/api/exchange")
@@ -59,7 +61,7 @@ class CurrencyExchangeControllerTest {
                                 .content("{}")
                 )
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(CurrencyNotFoundException.ERROR_MESSAGE));
+                .andExpect(content().string(expectedResponse));
     }
 
     private String asJsonString(final Object obj) {
