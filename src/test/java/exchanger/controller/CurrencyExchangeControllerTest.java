@@ -2,6 +2,7 @@ package exchanger.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exchanger.model.ExchangeRequest;
+import exchanger.model.ExchangeResponse;
 import exchanger.service.CurrencyExchangeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CurrencyExchangeController.class)
 class CurrencyExchangeControllerTest {
@@ -30,10 +33,10 @@ class CurrencyExchangeControllerTest {
     @Test
     void exchange_success() throws Exception {
         ExchangeRequest request = new ExchangeRequest("EUR");
-        String expectedReturnValue = "success";
+        BigDecimal expectedRate = new BigDecimal("10.123456789");
+        ExchangeResponse response = new ExchangeResponse(expectedRate);
 
-        when(service.exchange(request))
-                .thenReturn(expectedReturnValue);
+        when(service.exchange(request)).thenReturn(response);
 
         mockMvc.perform(
                         post("/api/exchange")
@@ -41,7 +44,7 @@ class CurrencyExchangeControllerTest {
                                 .content(asJsonString(request))
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedReturnValue));
+                .andExpect(jsonPath("$.rate", comparesEqualTo(expectedRate.doubleValue())));
     }
 
     @Test

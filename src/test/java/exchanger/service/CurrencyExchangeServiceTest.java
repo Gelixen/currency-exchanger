@@ -2,6 +2,7 @@ package exchanger.service;
 
 import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
+import exchanger.model.ExchangeResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,9 +33,9 @@ class CurrencyExchangeServiceTest {
         ExchangeRequest exchangeRequest = new ExchangeRequest(currency);
         when(currencies.get(currency)).thenReturn(expectedValue);
 
-        String response = service.exchange(exchangeRequest);
+        ExchangeResponse response = service.exchange(exchangeRequest);
 
-        assertEquals(expectedValue.toString(), response);
+        assertEquals(expectedValue, response.rate());
     }
 
     @Test

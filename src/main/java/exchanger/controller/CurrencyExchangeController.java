@@ -1,6 +1,7 @@
 package exchanger.controller;
 
 import exchanger.model.ExchangeRequest;
+import exchanger.model.ExchangeResponse;
 import exchanger.service.CurrencyExchangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ public class CurrencyExchangeController {
     private CurrencyExchangeService currencyExchangeService;
 
     @PostMapping("/exchange")
-    public ResponseEntity<String> exchange(@RequestBody ExchangeRequest request) {
+    public ResponseEntity<ExchangeResponse> exchange(@RequestBody ExchangeRequest request) {
         try {
-            String response = currencyExchangeService.exchange(request);
+            ExchangeResponse response = currencyExchangeService.exchange(request);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -2,10 +2,13 @@ package exchanger.service;
 
 import exchanger.CurrencyNotFoundException;
 import exchanger.model.ExchangeRequest;
+import exchanger.model.ExchangeResponse;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,12 +22,12 @@ class CurrencyExchangeServiceIT {
 
     @Test
     void exchange_existentCurrencyName_returnExchangeRate() {
-        String expectedExchangeRate = "1";
+        BigDecimal expectedExchangeRate = BigDecimal.ONE;
         ExchangeRequest exchangeRequest = new ExchangeRequest("EUR");
 
-        String exchangeRate = service.exchange(exchangeRequest);
+        ExchangeResponse exchangeRate = service.exchange(exchangeRequest);
 
-        assertEquals(expectedExchangeRate, exchangeRate);
+        assertEquals(expectedExchangeRate, exchangeRate.rate());
     }
 
     @Test
