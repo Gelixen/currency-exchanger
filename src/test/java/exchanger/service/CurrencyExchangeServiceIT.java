@@ -26,7 +26,7 @@ class CurrencyExchangeServiceIT {
 
         ExchangeResponse exchangeRate = service.exchange(exchangeRequest);
 
-        assertEquals(expectedExchangeRate, exchangeRate.rate());
+        assertEquals(expectedExchangeRate, exchangeRate.quantity());
     }
 
     @Test

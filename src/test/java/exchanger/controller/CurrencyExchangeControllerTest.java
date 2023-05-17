@@ -45,7 +45,7 @@ class CurrencyExchangeControllerTest {
                                 .content(asJsonString(request))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.rate", comparesEqualTo(expectedRate.doubleValue())));
+                .andExpect(jsonPath("$.quantity", comparesEqualTo(expectedRate.doubleValue())));
     }
 
     @Test

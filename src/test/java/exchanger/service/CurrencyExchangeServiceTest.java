@@ -80,6 +80,6 @@ class CurrencyExchangeServiceTest {
 
     private String getExchange(String quantity, String initialCurrency, String finalCurrency) {
         ExchangeRequest request = new ExchangeRequest(new BigDecimal(quantity), initialCurrency, finalCurrency);
-        return service.exchange(request).rate().toString();
+        return service.exchange(request).quantity().toString();
     }
 }
