@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class CurrencyRatesLoaderIT {
 
-    private final HashMap<String, BigDecimal> expectedCurrencyRates = new HashMap<>() {{
+    private final HashMap<String, BigDecimal> expectedCurrencyRateMap = new HashMap<>() {{
         put("EUR", new BigDecimal("1"));
         put("USD", new BigDecimal("0.809552722"));
         put("GBP", new BigDecimal("1.126695"));
@@ -24,14 +24,14 @@ class CurrencyRatesLoaderIT {
     }};
 
     @Autowired
-    private HashMap<String, BigDecimal> currencyRates;
+    private HashMap<String, BigDecimal> currencyRateMap;
 
     CurrencyRatesLoaderIT() {
     }
 
     @Test
     void testLoadCurrencyRates() {
-        assertEquals(6, currencyRates.size());
-        assertEquals(expectedCurrencyRates, currencyRates);
+        assertEquals(6, currencyRateMap.size());
+        assertEquals(expectedCurrencyRateMap, currencyRateMap);
     }
 }

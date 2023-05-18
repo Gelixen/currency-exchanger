@@ -19,21 +19,21 @@ class CurrencyExchangeServiceTest {
 
     @BeforeAll
     static void setUp() {
-        HashMap<String, BigDecimal> currenciesMap = generateCurrenciesMap();
-        service = new CurrencyExchangeService(currenciesMap);
+        HashMap<String, BigDecimal> currencyRateMap = generateCurrencyRateMap();
+        service = new CurrencyExchangeService(currencyRateMap);
     }
 
-    private static HashMap<String, BigDecimal> generateCurrenciesMap() {
-        HashMap<String, BigDecimal> currenciesMap = new HashMap<>();
+    private static HashMap<String, BigDecimal> generateCurrencyRateMap() {
+        HashMap<String, BigDecimal> currencyRateMap = new HashMap<>();
 
-        currenciesMap.put("EUR", new BigDecimal("1"));
-        currenciesMap.put("GBP", new BigDecimal("1.126695"));
-        currenciesMap.put("FKE", new BigDecimal("0.025"));
-        currenciesMap.put("USD", new BigDecimal("0.809552722"));
-        currenciesMap.put("BTC", new BigDecimal("6977.089657"));
-        currenciesMap.put("ETH", new BigDecimal("685.2944747"));
+        currencyRateMap.put("EUR", new BigDecimal("1"));
+        currencyRateMap.put("GBP", new BigDecimal("1.126695"));
+        currencyRateMap.put("FKE", new BigDecimal("0.025"));
+        currencyRateMap.put("USD", new BigDecimal("0.809552722"));
+        currencyRateMap.put("BTC", new BigDecimal("6977.089657"));
+        currencyRateMap.put("ETH", new BigDecimal("685.2944747"));
 
-        return currenciesMap;
+        return currencyRateMap;
     }
 
     private static Stream<Arguments> exchange_successful() {

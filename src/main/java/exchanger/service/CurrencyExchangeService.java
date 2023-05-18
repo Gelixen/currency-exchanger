@@ -12,10 +12,10 @@ import java.util.Optional;
 @Service
 public class CurrencyExchangeService {
 
-    private final HashMap<String, BigDecimal> currencies;
+    private final HashMap<String, BigDecimal> currencyRateMap;
 
-    public CurrencyExchangeService(HashMap<String, BigDecimal> currencies) {
-        this.currencies = currencies;
+    public CurrencyExchangeService(HashMap<String, BigDecimal> currencyRateMap) {
+        this.currencyRateMap = currencyRateMap;
     }
 
     public ExchangeResponse exchange(ExchangeRequest request) {
@@ -29,7 +29,7 @@ public class CurrencyExchangeService {
     }
 
     private BigDecimal getCurrencyRate(String currencyName) {
-        return Optional.ofNullable(currencies.get(currencyName))
+        return Optional.ofNullable(currencyRateMap.get(currencyName))
                 .orElseThrow(() -> new CurrencyNotFoundException(currencyName));
     }
 }
