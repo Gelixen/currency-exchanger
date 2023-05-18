@@ -56,7 +56,7 @@ class CurrencyExchangeServiceTest {
     void exchange_successful(String initialCurrency, String finalCurrency, String quantity, String expectedQuantity) {
         ExchangeRequest request = new ExchangeRequest(new BigDecimal(quantity), initialCurrency, finalCurrency);
 
-        String exchangedQuantity = service.exchange(request).quantity().toString();
+        String exchangedQuantity = service.exchange(request).quantity();
 
         assertEquals(expectedQuantity, exchangedQuantity);
     }
