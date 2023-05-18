@@ -13,6 +13,6 @@ public class ControllerExceptionHandler {
     public ResponseEntity<Object> handleException(CurrencyNotFoundException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
+                .body(new ErrorMessage(e.getMessage()));
     }
 }
